@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : MonoBehaviour, IMovement
 {
     [Header("Movement")]
     [SerializeField] private float maxSpeed = 8f;
@@ -28,6 +28,8 @@ public class PlayerMovement : MonoBehaviour
     private float coyoteTimer;
     private float jumpBufferTimer;
     private bool isGrounded;
+    private bool jumpPressed;
+    private bool jumpReleased;
 
     void Awake()
     {
@@ -38,9 +40,7 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        moveInput = Input.GetAxisRaw("Horizontal");
-
-        if (Input.GetButtonDown("Jump"))
+        if (jumpPressed)
         {
             jumpBufferTimer = jumpBufferTime;
         }
@@ -49,7 +49,7 @@ public class PlayerMovement : MonoBehaviour
             jumpBufferTimer -= Time.deltaTime;
         }
 
-        if (Input.GetButtonUp("Jump") && rb.velocity.y > 0f)
+        if (jumpReleased && rb.velocity.y > 0f)
         {
             rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * jumpCutMultiplier);
         }
@@ -149,5 +149,16 @@ public class PlayerMovement : MonoBehaviour
 
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
+    }
+
+    public void SetMoveInput(float moveInput)
+    {
+        this.moveInput = moveInput;
+    }
+
+    public void SetJumpInput(bool jumpPressed, bool jumpReleased)
+    {
+        this.jumpPressed = jumpPressed;
+        this.jumpReleased = jumpReleased;
     }
 }
