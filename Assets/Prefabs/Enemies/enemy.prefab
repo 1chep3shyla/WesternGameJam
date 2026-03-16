@@ -14,6 +14,8 @@ GameObject:
   - component: {fileID: 8075883840965780779}
   - component: {fileID: 1145057878609573569}
   - component: {fileID: 1142955693927417992}
+  - component: {fileID: 1606804770725776340}
+  - component: {fileID: -6097106663535365035}
   m_Layer: 7
   m_Name: enemy
   m_TagString: Untagged
@@ -184,7 +186,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 947f6816731f704449faf16c88b446ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxSpeed: 3
+  maxSpeed: 4
   acceleration: 5
   deceleration: 60
   target: {fileID: 0}
@@ -198,6 +200,46 @@ MonoBehaviour:
   groundMask:
     serializedVersion: 2
     m_Bits: 0
+--- !u!114 &1606804770725776340
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3207281184306243216}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 689e912c7d87ef946b203d51d762585a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 3
+  targetRenderer: {fileID: 7875526235820240125}
+  damageMaterial: {fileID: 2100000, guid: 98fdbc005561cca419f5d0b3288e8340, type: 2}
+  damageFlashDuration: 0.1
+--- !u!114 &-6097106663535365035
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3207281184306243216}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a9ca80b31a88fd4eb0213cc3d756a45, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  groundMask:
+    serializedVersion: 2
+    m_Bits: 0
+  enemyMask:
+    serializedVersion: 2
+    m_Bits: 256
+  impactPrefab: {fileID: 0}
+  damage: 1
+  destroyOnImpact: 0
+  damageInterval: 1
+  impactEnemyClip: {fileID: 8300000, guid: 93ee77d528f31c343a9ab17fedc7a283, type: 3}
+  impactGroundClip: {fileID: 0}
 --- !u!1 &5568191091755546652
 GameObject:
   m_ObjectHideFlags: 0

@@ -8,6 +8,7 @@ public class ZoneParenting : MonoBehaviour
 
     private Transform originalParent;
     private Collider2D zoneCollider;
+    private bool pendingRestore;
 
     private void Awake()
     {
@@ -25,6 +26,15 @@ public class ZoneParenting : MonoBehaviour
         }
     }
 
+    private void OnEnable()
+    {
+        if (pendingRestore)
+        {
+            pendingRestore = false;
+            RestoreParent();
+        }
+    }
+
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (target == null || other.transform != target)
@@ -39,6 +49,22 @@ public class ZoneParenting : MonoBehaviour
     private void OnTriggerExit2D(Collider2D other)
     {
         if (target == null || other.transform != target)
+        {
+            return;
+        }
+
+        if (parentWhenInside != null && !parentWhenInside.gameObject.activeInHierarchy)
+        {
+            pendingRestore = true;
+            return;
+        }
+
+        RestoreParent();
+    }
+
+    private void RestoreParent()
+    {
+        if (target == null)
         {
             return;
         }

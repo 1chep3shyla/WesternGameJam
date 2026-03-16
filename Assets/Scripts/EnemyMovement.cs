@@ -145,4 +145,8 @@ public class EnemyMovement : MonoBehaviour, IMovement
     public void SetJumpInput(bool jumpPressed, bool jumpReleased)
     {
     }
+
+    public void SetDashInput(bool dashPressed)
+    {
+    }
 }

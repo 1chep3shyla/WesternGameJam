@@ -9,11 +9,18 @@ public class Shooting : MonoBehaviour
     [SerializeField] private string fireButton = "Fire1";
     [SerializeField] private Camera targetCamera;
     [SerializeField] private float projectileRotationOffset;
+    [SerializeField] private string shootAnimationName = "animation_player_shoot";
+    [SerializeField] private GameObject muzzleFlashPrefab;
+    [SerializeField] private AudioClip shootClip;
 
     private float nextFireTime;
+    private Animator animator;
+    private PlayerMovement playerMovement;
 
     private void Awake()
     {
+        animator = GetComponent<Animator>();
+        playerMovement = GetComponent<PlayerMovement>();
         if (targetCamera == null)
         {
             targetCamera = Camera.main;
@@ -23,6 +30,11 @@ public class Shooting : MonoBehaviour
     private void Update()
     {
         if (projectilePrefab == null || firePoint == null || targetCamera == null)
+        {
+            return;
+        }
+
+        if (playerMovement != null && !playerMovement.IsGrounded)
         {
             return;
         }
@@ -50,9 +62,31 @@ public class Shooting : MonoBehaviour
             projectileRb.velocity = direction * projectileSpeed;
         }
 
+        if (muzzleFlashPrefab != null)
+        {
+            Instantiate(muzzleFlashPrefab, firePoint.position, firePoint.rotation, firePoint);
+        }
+
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         projectile.transform.rotation = Quaternion.AngleAxis(angle + projectileRotationOffset, Vector3.forward);
 
+        if (animator != null && !string.IsNullOrEmpty(shootAnimationName))
+        {
+            animator.Play(shootAnimationName);
+        }
+
+        PlayClip(shootClip);
+
         nextFireTime = Time.time + fireRate;
+    }
+
+    private void PlayClip(AudioClip clip)
+    {
+        if (AudioManager.Instance == null || clip == null)
+        {
+            return;
+        }
+
+        AudioManager.Instance.PlayOneShot(clip);
     }
 }
